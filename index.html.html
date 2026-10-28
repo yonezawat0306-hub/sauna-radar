@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>SAUNA RADAR</title>
+    <!-- スマホアプリ化（ホーム画面追加）用の設定 -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="SAUNA RADAR">
+    <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%%3E%<rect width=%22100%22 height=%22100%22 rx=%2220%22 fill=%22%230d1117%22/%3E%text y=%22.9em%22 font-size=%2260%22 x=%2218%22>♨️</text></svg>">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Zen Kaku Gothic New', sans-serif;
+            background-color: #0d1117;
+            color: #f0f6fc;
+            user-select: none;
+            -webkit-user-select: none;
+        }
+        .radar-grid {
+            background-image: radial-gradient(circle, rgba(249, 115, 22, 0.15) 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+        ::-webkit-scrollbar {
+            display: none;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex justify-center items-center p-0 sm:p-4">
+
+    <!-- スマホ筐体 (PC表示時はスマホ型、スマホ全画面時はフィット) -->
+    <div class="w-full sm:max-w-md min-h-screen sm:min-h-[840px] bg-[#0d1117] sm:rounded-[36px] sm:border-[6px] sm:border-[#30363d] flex flex-col justify-between relative overflow-hidden shadow-2xl">
+
+        <!-- ステータスバー風ヘッダー -->
+        <div class="pt-3 px-6 pb-2 flex justify-between items-center text-[11px] text-[#8b949e] border-b border-[#21262d]">
+            <span class="font-bold tracking-wider text-orange-500">♨️ SAUNA_RADAR v1.0</span>
+            <span class="bg-[#21262d] px-2 py-0.5 rounded-full text-[10px] text-emerald-400 font-mono">GPS: LOCK</span>
+        </div>
+
+        <!-- メイン画面：サウナレーダー＆マップビュー -->
+        <main class="flex-1 flex flex-col relative overflow-hidden radar-grid">
+            
+            <!-- エリア選択 -->
+            <div class="p-4 bg-[#0d1117]/90 backdrop-blur border-b border-[#21262d] z-10 space-y-2">
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] uppercase text-[#8b949e] tracking-widest font-bold">Current Location</span>
+                    <button class="text-[10px] text-orange-400 underline">エリア変更</button>
+                </div>
+                <div class="flex items-center space-x-2 text-sm font-bold text-white">
+                    <span class="text-base">📍</span>
+                    <span>京都府・嵐山 / 嵯峨野エリア</span>
+                </div>
+            </div>
+
+            <!-- レーダーアニメーションエリア -->
+            <div class="flex-1 relative flex items-center justify-center p-6">
+                <div class="absolute w-64 h-64 rounded-full border border-orange-500/20 animate-ping pointer-events-none"></div>
+                <div class="absolute w-48 h-48 rounded-full border border-orange-500/30"></div>
+                <div class="absolute w-24 h-24 rounded-full border border-orange-500/40"></div>
+                
+                <div class="w-4 h-4 bg-orange-500 rounded-full shadow-[0_0_15px_#f97316] z-10 flex items-center justify-center">
+                    <div class="w-1.5 h-1.5 bg-white rounded-full"></div>
+                </div>
+
+                <!-- 周辺スポットピン1 -->
+                <div class="absolute top-16 left-12 bg-[#161b22] border border-[#30363d] px-3 py-1.5 rounded-xl shadow-lg flex items-center space-x-2 animate-bounce">
+                    <span class="text-xs">♨️</span>
+                    <div>
+                        <p class="text-[11px] font-bold text-white leading-tight">嵐山 湯治の森</p>
+                        <p class="text-[9px] text-orange-400">水風呂 14℃ / 徒歩6分</p>
+                    </div>
+                </div>
+
+                <!-- 周辺スポットピン2 -->
+                <div class="absolute bottom-20 right-10 bg-[#161b22] border border-[#30363d] px-3 py-1.5 rounded-xl shadow-lg flex items-center space-x-2">
+                    <span class="text-xs">🏛️</span>
+                    <div>
+                        <p class="text-[11px] font-bold text-white leading-tight">隠れ竹林小径</p>
+                        <p class="text-[9px] text-[#8b949e]">観光スポット / 徒歩3分</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- AIルート提案カード -->
+            <div class="p-4 bg-[#161b22] border-t border-[#30363d] space-y-3 z-10">
+                <div class="flex justify-between items-center">
+                    <span class="text-[10px] text-orange-400 font-bold uppercase tracking-wider">AI Route Recommendation</span>
+                    <span class="text-[10px] text-[#8b949e]">動線最適化済み</span>
+                </div>
+
+                <div class="bg-[#0d1117] p-3.5 rounded-2xl border border-[#30363d] space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs font-bold text-white">竹林散策 ＋ 湯治の森サウナ</span>
+                        <span class="text-[10px] bg-orange-500/20 text-orange-400 px-2 py-0.5 rounded font-mono">トトノイ度高</span>
+                    </div>
+                    <p class="text-[11px] text-[#8b949e] leading-relaxed">
+                        混雑を避けた裏道散歩のあと、地下水かけ流しの冷水風呂へ直行する黄金ルートです。
+                    </p>
+                </div>
+
+                <button class="w-full bg-orange-600 hover:bg-orange-500 text-white font-bold text-xs py-3 rounded-xl shadow
